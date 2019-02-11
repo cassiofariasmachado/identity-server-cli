@@ -5,20 +5,12 @@ namespace IdentityServerCli.Console.Test.Extensions
 {
     public class StringExtensionsTest
     {
-        [Fact]
-        public void ShouldDashrializeAStringProperly()
+        [Theory]
+        [InlineData("HelloWorld", "hello-world")]
+        [InlineData("", "")]
+        public void ShouldDashrializeAStringProperly(string str, string expected)
         {
-            var aString = "HelloWorld";
-
-            Assert.Equal("hello-world", aString.Dashrialize());
-        }
-
-        [Fact]
-        public void ShouldDashrializeReturnEmptyIfStringIsEmpty()
-        {
-            var aString = string.Empty;
-
-            Assert.Equal(string.Empty, aString.Dashrialize());
+            Assert.Equal(expected, str.Dashrialize());
         }
     }
 }
