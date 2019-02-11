@@ -11,11 +11,11 @@ using static System.Console;
 
 namespace IdentityServerCli.Console
 {
-    class Program
+    public static class Program
     {
         private const string ConnectionStringVariableName = "IS4_CONNECTION_STRING";
 
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             var app = new CommandLineApplication
             {
