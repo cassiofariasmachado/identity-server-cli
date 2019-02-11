@@ -15,18 +15,11 @@ namespace IdentityServerCli.Console.Repositories
             _configurationDbContext = configurationDbContext;
         }
 
-        public async Task SaveAsync(ApiResource apiResource)
+        public async Task AddAsync(ApiResource apiResource)
         {
             var apiResourceEntity = apiResource.ToEntity();
 
-            if (apiResourceEntity.Id == default(int))
-            {
-                _configurationDbContext.ApiResources.Add(apiResourceEntity);
-            }
-            else
-            {
-                _configurationDbContext.ApiResources.Update(apiResourceEntity);
-            }
+            await _configurationDbContext.ApiResources.AddAsync(apiResourceEntity);
 
             await _configurationDbContext.SaveChangesAsync();
         }

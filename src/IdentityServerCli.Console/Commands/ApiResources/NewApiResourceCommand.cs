@@ -44,7 +44,7 @@ namespace IdentityServerCli.Console.Commands.ApiResources
                 _console.ForegroundColor = ConsoleColor.Green;
                 _console.WriteLine();
 
-                await _apiResourceRepository.SaveAsync(apiResource);
+                await _apiResourceRepository.AddAsync(apiResource);
 
                 _console.WriteSuccess("ApiResource created.");
             });
