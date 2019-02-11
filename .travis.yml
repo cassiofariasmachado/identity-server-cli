@@ -6,11 +6,11 @@ solution: IdentityServerCli.sln
 services:
   - docker
 script:
-  - docker run -it \
-      -e PROJECT_KEY=${PROJECT_KEY} \
-      -e SONAR_ORGANIZATION=${SONAR_ORGANIZATION} \
-      -e SONAR_URL=${SONAR_URL} \
-      -e SONAR_SECRET=${SONAR_SECRET} \
-      -v $(pwd):/source \
-      cassiofariasmachado/dotnet-sonarscanner:latest \
+  - docker run -it
+      -e PROJECT_KEY=${PROJECT_KEY}
+      -e SONAR_ORGANIZATION=${SONAR_ORGANIZATION}
+      -e SONAR_URL=${SONAR_URL}
+      -e SONAR_SECRET=${SONAR_SECRET}
+      -v $(pwd):/source
+      cassiofariasmachado/dotnet-sonarscanner:latest
       sh -c "cd /source && scripts/sonar-scan.sh"
