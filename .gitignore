@@ -348,5 +348,7 @@ healthchecksdb
 !.vscode/extensions.json
 
 # SonarQube
-
 .sonarqube/
+
+# OpenCover files
+*.opencover.xml
