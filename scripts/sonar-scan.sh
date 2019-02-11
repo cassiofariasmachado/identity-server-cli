@@ -1,5 +1,5 @@
 echo "Stage 1: Begin sonar scan"
-dotnet sonarscanner begin /k:$PROJECT_KEY /d:sonar.organization=$SONAR_ORGANIZATION /d:sonar.host.url=$SONAR_URL /d:sonar.login=$SONAR_SECRET
+dotnet sonarscanner begin /k:$PROJECT_KEY /d:sonar.organization=$SONAR_ORGANIZATION /d:sonar.host.url=$SONAR_URL /d:sonar.login=$SONAR_SECRET /d:sonar.cs.opencover.reportsPaths="*/**/coverage.opencover.xml"
 
 echo "Stage 2: Analize project"
 dotnet build
