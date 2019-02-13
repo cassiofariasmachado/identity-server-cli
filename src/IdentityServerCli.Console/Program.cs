@@ -7,15 +7,17 @@ using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using IdentityServerCli.Console.Repositories;
-using static System.Console;
+using IdentityServerCli.Console.Interfaces.Repositories;
 
 namespace IdentityServerCli.Console
 {
     public static class Program
     {
-        private const string ConnectionStringVariableName = "IS4_CONNECTION_STRING";
+        public const string ConnectionStringVariableName = "IS4_CONNECTION_STRING";
 
-        public static int Main(string[] args)
+        public static int Main(string[] args) => BuildCommandLineApplication().Execute(args);
+
+        public static CommandLineApplication BuildCommandLineApplication()
         {
             var app = new CommandLineApplication
             {
@@ -31,36 +33,16 @@ namespace IdentityServerCli.Console
             app.Command("new", newCmd =>
             {
                 newCmd.Command("api-resource", app.GetService<NewApiResourceCommand>().Execute);
-
-                string notImplemented = "Command not implemented yet";
-
-                newCmd.Command("identity-resource", apiResourceCmd =>
-                {
-                    apiResourceCmd.OnExecute(() =>
-                    {
-                        // To-do: implement this command
-                        WriteLine(notImplemented);
-                    });
-                });
-
-                newCmd.Command("client", clientCmd =>
-                {
-                    clientCmd.OnExecute(() =>
-                    {
-                        // To-do: implement this command
-                        WriteLine(notImplemented);
-                    });
-                });
             });
 
             app.OnExecute(() =>
             {
-                WriteLine("Specify a subcommand");
+                app.Out.WriteLine("Specify a subcommand");
                 app.ShowHelp();
                 return 1;
             });
 
-            return app.Execute(args);
+            return app;
         }
 
         public static IServiceCollection GetServices()
@@ -70,7 +52,7 @@ namespace IdentityServerCli.Console
             var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariableName);
 
             services.AddSingleton<IConsole>(PhysicalConsole.Singleton);
-            services.AddSingleton<ApiResourceRepository>();
+            services.AddSingleton<IApiResourceRepository, ApiResourceRepository>();
             services.AddSingleton<NewApiResourceCommand>();
 
             services.AddIdentityServer()
@@ -80,7 +62,6 @@ namespace IdentityServerCli.Console
                 });
 
             return services;
-
         }
     }
 }

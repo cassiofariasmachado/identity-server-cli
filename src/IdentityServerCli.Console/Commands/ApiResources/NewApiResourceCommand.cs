@@ -1,8 +1,8 @@
 using IdentityServer4.Models;
 using McMaster.Extensions.CommandLineUtils;
 using IdentityServerCli.Console.Extensions;
-using IdentityServerCli.Console.Repositories;
 using System;
+using IdentityServerCli.Console.Interfaces.Repositories;
 
 namespace IdentityServerCli.Console.Commands.ApiResources
 {
@@ -10,11 +10,11 @@ namespace IdentityServerCli.Console.Commands.ApiResources
     {
         private readonly IConsole _console;
 
-        private readonly ApiResourceRepository _apiResourceRepository;
+        private readonly IApiResourceRepository _apiResourceRepository;
 
         public NewApiResourceCommand(
             IConsole console,
-            ApiResourceRepository apiResourceRepository
+            IApiResourceRepository apiResourceRepository
         )
         {
             _console = console;

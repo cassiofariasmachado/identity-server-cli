@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
+using IdentityServerCli.Console.Interfaces.Repositories;
 
 namespace IdentityServerCli.Console.Repositories
 {
-    public class ApiResourceRepository
+    public class ApiResourceRepository : IApiResourceRepository
     {
         private readonly IConfigurationDbContext _configurationDbContext;
 
