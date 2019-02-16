@@ -3,6 +3,7 @@ using McMaster.Extensions.CommandLineUtils;
 using IdentityServerCli.Console.Extensions;
 using System;
 using IdentityServerCli.Console.Interfaces.Repositories;
+using System.Linq;
 
 namespace IdentityServerCli.Console.Commands.ApiResources
 {
@@ -23,13 +24,21 @@ namespace IdentityServerCli.Console.Commands.ApiResources
 
         public void Execute(CommandLineApplication command)
         {
-            var name = AddNameArgument(command);
-            var displayName = AddDisplayNameOption(command);
-            var description = AddDescription(command);
+            var disabled = command.AddResourceDisabled();
+            var name = command.AddResourceNameArgument();
+            var displayName = command.AddResourceDisplayNameOption();
+            var description = command.AddResourceDescription();
+            var claims = command.AddResourceUserClaims();
+            var scopes = AddScopes(command);
 
             command.OnExecute(async () =>
             {
                 var apiResource = new ApiResource(name.Value);
+
+                if (disabled.HasValue())
+                {
+                    apiResource.Enabled = false;
+                }
 
                 if (displayName.HasValue())
                 {
@@ -41,8 +50,19 @@ namespace IdentityServerCli.Console.Commands.ApiResources
                     apiResource.Description = description.Value();
                 }
 
-                _console.ForegroundColor = ConsoleColor.Green;
-                _console.WriteLine();
+                if (scopes.HasValue())
+                {
+                    var mappedScopes = scopes.Values
+                        .Select(value => new Scope(value))
+                        .ToList();
+
+                    apiResource.Scopes = mappedScopes;
+                }
+
+                if (claims.HasValue())
+                {
+                    apiResource.UserClaims = claims.Values;
+                }
 
                 await _apiResourceRepository.AddAsync(apiResource);
 
@@ -50,23 +70,10 @@ namespace IdentityServerCli.Console.Commands.ApiResources
             });
         }
 
-        private CommandArgument AddNameArgument(CommandLineApplication command) =>
-                command.Argument(
-                    nameof(ApiResource.Name).Dashrialize(),
-                    "The unique name of the resource.")
-                .IsRequired();
-
-        private CommandOption AddDisplayNameOption(CommandLineApplication command) =>
+        private CommandOption AddScopes(CommandLineApplication command) =>
             command.CreateOption(
-                    nameof(ApiResource.DisplayName).Dashrialize(),
-                    "Display name of the resource.",
-                    CommandOptionType.SingleValue);
-
-        private CommandOption AddDescription(CommandLineApplication command) =>
-            command.CreateOption(
-                    nameof(ApiResource.Description).Dashrialize(),
-                    "Description of the resource.",
-                    CommandOptionType.SingleValue);
-
+                    nameof(ApiResource.Scopes),
+                    "The scopes of API",
+                    CommandOptionType.MultipleValue);
     }
 }
