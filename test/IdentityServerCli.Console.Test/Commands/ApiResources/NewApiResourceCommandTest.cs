@@ -6,6 +6,7 @@ using FakeItEasy;
 using IdentityServer4.Models;
 using IdentityServerCli.Console.Commands.ApiResources;
 using IdentityServerCli.Console.Interfaces.Repositories;
+using IdentityServerCli.Console.Test.Utils;
 using McMaster.Extensions.CommandLineUtils;
 using Xunit;
 
@@ -96,7 +97,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
             var mainArgs = new string[] {
                 CommandName, SubCommandName, apiResourceName
             };
-            var userClaimsArgs = CreateMultipleOptionArguments("--user-claims", claims);
+            var userClaimsArgs = CommandLineApplicationUtils.CreateMultipleOptionArguments("--user-claims", claims);
 
             var args = mainArgs.Concat(userClaimsArgs).ToArray();
 
@@ -120,7 +121,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
             var mainArgs = new string[] {
                 CommandName, SubCommandName, apiResourceName
             };
-            var scopesArgs = CreateMultipleOptionArguments("--scopes", scopes);
+            var scopesArgs = CommandLineApplicationUtils.CreateMultipleOptionArguments("--scopes", scopes);
 
             var args = mainArgs.Concat(scopesArgs).ToArray();
 
@@ -146,25 +147,11 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
                 .MustHaveHappened();
         }
 
-        private IEnumerable<string> CreateMultipleOptionArguments(string optionName, string[] claims)
-        {
-            foreach (var claim in claims)
-            {
-                yield return optionName;
-                yield return claim;
-            }
-        }
-
         private CommandLineApplication CreateCommandLineApplication(NewApiResourceCommand newApiResourceCommand)
-        {
-            var app = new CommandLineApplication();
+            => CommandLineApplicationUtils.CreateCommandLineApplication(
+                    CommandName,
+                    SubCommandName,
+                    newApiResourceCommand);
 
-            app.Command(CommandName, newCmd =>
-            {
-                newCmd.Command(SubCommandName, newApiResourceCommand.Execute);
-            });
-
-            return app;
-        }
     }
 }

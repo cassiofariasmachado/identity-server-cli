@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using IdentityServerCli.Console.Repositories;
 using IdentityServerCli.Console.Interfaces.Repositories;
+using IdentityServerCli.Console.Commands.IdentityResources;
 
 namespace IdentityServerCli.Console
 {
@@ -33,6 +34,7 @@ namespace IdentityServerCli.Console
             app.Command("new", newCmd =>
             {
                 newCmd.Command("api-resource", app.GetService<NewApiResourceCommand>().Execute);
+                newCmd.Command("identity-resource", app.GetService<NewIdentityResourceCommand>().Execute);
             });
 
             app.OnExecute(() =>
@@ -52,8 +54,12 @@ namespace IdentityServerCli.Console
             var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariableName);
 
             services.AddSingleton<IConsole>(PhysicalConsole.Singleton);
+
             services.AddSingleton<IApiResourceRepository, ApiResourceRepository>();
+            services.AddSingleton<IIdentityResourceRepository, IdentityResourceRepository>();
+
             services.AddSingleton<NewApiResourceCommand>();
+            services.AddSingleton<NewIdentityResourceCommand>();
 
             services.AddIdentityServer()
                 .AddConfigurationStore(options =>
