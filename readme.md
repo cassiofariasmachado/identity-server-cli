@@ -15,6 +15,23 @@ Command line interface to manage API resources, clients and identity resources o
 
 Comming soon.
 
+### Usage
+
+First of all, you need to set the environment variable named `IS4_CONNECTION_STRING` of your running shell or operational system with the connection string of your Identity Server 4 instance.
+
+Example:
+
+``` bash
+export IS4_CONNECTION_STRING="Server=myServerAddress;Database=myDataBase;User Id=myUsername;
+Password=myPassword;"
+```
+
+After that, you can run:
+
+``` bash
+is4 [command]
+```
+
 ## Commands
 
 ### New
@@ -23,7 +40,9 @@ Command to add new clients, api and identity resources.
 
 _Usage:_
 
-`is4 new [command]`
+``` bash
+is4 new [command]
+```
 
 #### Subcommands
 
@@ -33,7 +52,9 @@ Create an api resource.
 
 _Usage:_
 
-`is4 new api-resource [arguments] [options]`
+``` bash
+is4 new api-resource [arguments] [options]
+```
 
 _Arguments:_
 
@@ -58,7 +79,9 @@ _Options:_
 
 _Usage:_
 
-`is4 new client [arguments] [options]`
+``` bash
+is4 new client [arguments] [options]
+```
 
 _Arguments:_
 
@@ -98,7 +121,9 @@ Create an identity resource.
 
 _Usage:_ 
 
-`is4 new identity-resource [arguments] [options]`
+``` bash
+is4 new identity-resource [arguments] [options]
+```
 
 _Arguments:_
 
