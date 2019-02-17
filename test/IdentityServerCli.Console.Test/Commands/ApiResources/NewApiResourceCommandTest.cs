@@ -143,7 +143,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
 
         private void SuccessMessageMustHaveHappened()
         {
-            A.CallTo(() => _console.Out.WriteLine("ApiResource created."))
+            A.CallTo(() => _console.Out.WriteLine("Api resource created."))
                 .MustHaveHappened();
         }
 

@@ -170,7 +170,7 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
 
         private void SuccessMessageMustHaveHappened()
         {
-            A.CallTo(() => _console.Out.WriteLine("IdentityResource created."))
+            A.CallTo(() => _console.Out.WriteLine("Identity resource created."))
                 .MustHaveHappened();
         }
 

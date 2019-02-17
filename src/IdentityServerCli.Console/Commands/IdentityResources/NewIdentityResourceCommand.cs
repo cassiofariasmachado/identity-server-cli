@@ -77,7 +77,7 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
 
                 await _identityResourceRepository.AddAsync(identityResource);
 
-                _console.WriteSuccess("IdentityResource created.");
+                _console.WriteSuccess("Identity resource created.");
             });
 
         }
