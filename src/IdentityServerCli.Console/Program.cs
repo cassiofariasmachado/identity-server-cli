@@ -10,16 +10,16 @@ using IdentityServerCli.Console.Repositories;
 using IdentityServerCli.Console.Interfaces.Repositories;
 using IdentityServerCli.Console.Commands.IdentityResources;
 using IdentityServerCli.Console.Commands.Clients;
+using IdentityServerCli.Console.Extensions;
+using IdentityServerCli.Console.Commands;
 
 namespace IdentityServerCli.Console
 {
     public static class Program
     {
-        private const string CommandName = "Identity Server CLI";
+        private const string Name = "Identity Server CLI";
 
-        private const string CommandDescription = "A command line interface for manage clients, api and identity resources Identity Server 4.";
-
-        private const string NewCommandName = "new";
+        private const string Description = "A command line interface for manage clients, api and identity resources Identity Server 4.";
 
         public const string ConnectionStringVariableName = "IS4_CONNECTION_STRING";
 
@@ -29,20 +29,22 @@ namespace IdentityServerCli.Console
         {
             var app = new CommandLineApplication
             {
-                Name = CommandName,
-                Description = CommandDescription
+                Name = Name,
+                Description = Description
             };
 
             app.Conventions.UseDefaultConventions()
                 .UseConstructorInjection(GetServices().BuildServiceProvider());
 
-            app.Command(NewCommandName, newCmd =>
+            app.Command(CommandsConsts.NewCommandName, newCmd =>
             {
-                newCmd.Description = "Command to add new clients, api and identity resources.";
+                newCmd.Description = CommandsConsts.NewCommandDescription;
 
-                newCmd.Command(nameof(ApiResource), app.GetService<NewApiResourceCommand>().Execute);
-                newCmd.Command(nameof(IdentityResource), app.GetService<NewIdentityResourceCommand>().Execute);
-                newCmd.Command(nameof(Client), app.GetService<NewClientCommand>().Execute);
+                newCmd.Command(nameof(ApiResource).Dashrialize(), app.GetService<NewApiResourceCommand>().Execute);
+                newCmd.Command(nameof(IdentityResource).Dashrialize(), app.GetService<NewIdentityResourceCommand>().Execute);
+                newCmd.Command(nameof(Client).Dashrialize(), app.GetService<NewClientCommand>().Execute);
+
+                newCmd.OnExecute(() => newCmd.ShowSubCommandHelp());
             });
 
             app.OnExecute(() =>

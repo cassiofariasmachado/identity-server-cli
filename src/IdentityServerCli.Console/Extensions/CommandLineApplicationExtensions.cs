@@ -20,6 +20,12 @@ namespace IdentityServerCli.Console.Extensions
             return command.Option(formatedTemplate, description, type);
         }
 
+        public static int ShowSubCommandHelp(this CommandLineApplication command)
+        {
+            command.Out.WriteLine(command.GetHelpText());
+            return 1;
+        }
+
         public static CommandOption AddResourceDisabled(this CommandLineApplication command) =>
             command.CreateOption(
                     "disabled",
