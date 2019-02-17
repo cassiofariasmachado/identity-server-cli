@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
@@ -17,7 +17,7 @@ namespace IdentityServerCli.Console
 {
     public static class Program
     {
-        private const string Name = "Identity Server CLI";
+        private const string Name = "is4";
 
         private const string Description = "A command line interface for manage clients, api and identity resources Identity Server 4.";
 
