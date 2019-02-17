@@ -149,4 +149,4 @@ _Options:_
 
 ## Contribution
 
-Contributions are welcome, if you find some bug please don't let of open a PR. Thanks!
+Contributions are welcome, if you find some bug please don't let of open an issue or a Pull Request. Thanks!
