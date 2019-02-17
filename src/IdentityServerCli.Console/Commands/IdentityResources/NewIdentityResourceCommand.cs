@@ -97,7 +97,7 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
         private CommandOption AddNoShowInDiscoveryDocument(CommandLineApplication command) =>
             command.CreateOption(
                 $"No{nameof(IdentityResource.ShowInDiscoveryDocument)}",
-                "Specifies whether this scope is shown in the discovery document. Defaults to true.",
+                "Specifies whether this scope isn't shown in the discovery document. Defaults to false.",
                 CommandOptionType.NoValue);
 
     }
