@@ -23,7 +23,7 @@ namespace IdentityServerCli.Console.Extensions
         public static CommandOption AddResourceDisabled(this CommandLineApplication command) =>
             command.CreateOption(
                     "disabled",
-                    "Indicates if this resource is enabled. Defaults to true.",
+                    "Indicates if this resource is disabled. Defaults to enabled.",
                     CommandOptionType.NoValue);
 
         public static CommandArgument AddResourceName(this CommandLineApplication command) =>
