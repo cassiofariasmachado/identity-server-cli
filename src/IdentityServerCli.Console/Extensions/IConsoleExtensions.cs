@@ -5,16 +5,18 @@ namespace IdentityServerCli.Console.Extensions
 {
     public static class IConsoleExtensions
     {
-        public static void WriteSuccess(this IConsole console, string text)
-        {
-            console.ForegroundColor = ConsoleColor.Green;
-            console.WriteLine(text);
-            console.ResetColor();
-        }
+        public static void WriteSuccess(this IConsole console, string text) =>
+            console.WriteWithColor(text, ConsoleColor.Green);
 
-        public static void WriteError(this IConsole console, string text)
+        public static void WriteError(this IConsole console, string text) =>
+            console.WriteWithColor(text, ConsoleColor.Red);
+
+        public static void WriteWarning(this IConsole console, string text) =>
+            console.WriteWithColor(text, ConsoleColor.Yellow);
+
+        private static void WriteWithColor(this IConsole console, string text, ConsoleColor color)
         {
-            console.ForegroundColor = ConsoleColor.Red;
+            console.ForegroundColor = color;
             console.Error.WriteLine(text);
             console.ResetColor();
         }

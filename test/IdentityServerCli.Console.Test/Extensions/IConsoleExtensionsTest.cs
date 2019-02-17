@@ -8,24 +8,23 @@ namespace IdentityServerCli.Console.Test.Extensions
 {
     public class IConsoleExtensionsTest
     {
+        private readonly IConsole _console;
+
+        public IConsoleExtensionsTest()
+        {
+            _console = A.Fake<IConsole>();
+        }
+
         [Theory]
         [InlineData("Command completed successfully.")]
         [InlineData("This is a success message.")]
         public void ShouldWriteSuccessProperly(string text)
         {
-            var console = A.Fake<IConsole>();
+            _console.WriteSuccess(text);
 
-            console.WriteSuccess(text);
-
-            A.CallTo(() => console.Out.WriteLine(text))
-                .MustHaveHappened();
-
-            A.CallToSet(() => console.ForegroundColor)
-                .To(ConsoleColor.Green)
-                .MustHaveHappened();
-
-            A.CallTo(() => console.ResetColor())
-                .MustHaveHappened();
+            WriteLineMustHaveHappend(text);
+            ShouldHaveChangedTheColor(ConsoleColor.Green);
+            ResetColorMustHaveHappend();
         }
 
         [Theory]
@@ -33,19 +32,35 @@ namespace IdentityServerCli.Console.Test.Extensions
         [InlineData("Something went wrong, please contact the system administrator.")]
         public void ShouldWriteErrorProperly(string text)
         {
-            var console = A.Fake<IConsole>();
+            _console.WriteError(text);
 
-            console.WriteError(text);
-
-            A.CallTo(() => console.Error.WriteLine(text))
-                .MustHaveHappened();
-
-            A.CallToSet(() => console.ForegroundColor)
-                .To(ConsoleColor.Red)
-                .MustHaveHappened();
-
-            A.CallTo(() => console.ResetColor())
-                .MustHaveHappened();
+            WriteLineMustHaveHappend(text);
+            ShouldHaveChangedTheColor(ConsoleColor.Red);
+            ResetColorMustHaveHappend();
         }
+
+        [Theory]
+        [InlineData("It's just a warning.")]
+        public void ShouldWriteWarningProperly(string text)
+        {
+            _console.WriteWarning(text);
+
+            WriteLineMustHaveHappend(text);
+            ShouldHaveChangedTheColor(ConsoleColor.Yellow);
+            ResetColorMustHaveHappend();
+        }
+
+        private void ResetColorMustHaveHappend() =>
+            A.CallTo(() => _console.ResetColor())
+                .MustHaveHappened();
+
+        private void ShouldHaveChangedTheColor(ConsoleColor color) =>
+            A.CallToSet(() => _console.ForegroundColor)
+                .To(color)
+                .MustHaveHappened();
+
+        private void WriteLineMustHaveHappend(string text) =>
+            A.CallTo(() => _console.Error.WriteLine(text))
+                .MustHaveHappened();
     }
 }
