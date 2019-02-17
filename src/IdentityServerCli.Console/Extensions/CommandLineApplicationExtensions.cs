@@ -26,13 +26,13 @@ namespace IdentityServerCli.Console.Extensions
                     "Indicates if this resource is enabled. Defaults to true.",
                     CommandOptionType.NoValue);
 
-        public static CommandArgument AddResourceNameArgument(this CommandLineApplication command) =>
+        public static CommandArgument AddResourceName(this CommandLineApplication command) =>
             command.Argument(
                     nameof(Resource.Name),
                     "The unique name of the resource.")
                 .IsRequired();
 
-        public static CommandOption AddResourceDisplayNameOption(this CommandLineApplication command) =>
+        public static CommandOption AddResourceDisplayName(this CommandLineApplication command) =>
             command.CreateOption(
                     nameof(Resource.DisplayName),
                     "Display name of the resource.",

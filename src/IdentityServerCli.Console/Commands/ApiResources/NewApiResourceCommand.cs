@@ -25,8 +25,8 @@ namespace IdentityServerCli.Console.Commands.ApiResources
         public void Execute(CommandLineApplication command)
         {
             var disabled = command.AddResourceDisabled();
-            var name = command.AddResourceNameArgument();
-            var displayName = command.AddResourceDisplayNameOption();
+            var name = command.AddResourceName();
+            var displayName = command.AddResourceDisplayName();
             var description = command.AddResourceDescription();
             var claims = command.AddResourceUserClaims();
             var scopes = AddScopes(command);
