@@ -20,12 +20,15 @@ namespace IdentityServerCli.Console.Test.Utils
             return app;
         }
 
-        public static IEnumerable<string> CreateMultipleOptionArguments(string optionName, string[] claims)
+        public static IEnumerable<string> CreateMultipleOptionArguments(
+            string optionName,
+            string[] options
+        )
         {
-            foreach (var claim in claims)
+            foreach (var option in options)
             {
                 yield return optionName;
-                yield return claim;
+                yield return option;
             }
         }
     }
