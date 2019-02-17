@@ -7,6 +7,8 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
 {
     public class NewIdentityResourceCommand : ICommand
     {
+        private const string Description = "Create an identity resource.";
+
         private readonly IConsole _console;
 
         private readonly IIdentityResourceRepository _identityResourceRepository;
@@ -22,6 +24,8 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
 
         public void Execute(CommandLineApplication command)
         {
+            command.Description = Description;
+
             var disabled = command.AddResourceDisabled();
             var name = command.AddResourceName();
             var displayName = command.AddResourceDisplayName();

@@ -11,6 +11,8 @@ namespace IdentityServerCli.Console.Commands.Clients
 {
     public class NewClientCommand : ICommand
     {
+        private const string Description = "Create a client.";
+
         private readonly IConsole _console;
 
         private readonly IClientRepository _clientRepository;
@@ -26,6 +28,8 @@ namespace IdentityServerCli.Console.Commands.Clients
 
         public void Execute(CommandLineApplication command)
         {
+            command.Description = Description;
+
             var disabled = AddDisabled(command);
             var clientId = AddClientId(command);
             var clientName = AddClientName(command);

@@ -9,6 +9,8 @@ namespace IdentityServerCli.Console.Commands.ApiResources
 {
     public class NewApiResourceCommand : ICommand
     {
+        private const string Description = "Create an api resource.";
+
         private readonly IConsole _console;
 
         private readonly IApiResourceRepository _apiResourceRepository;
@@ -24,6 +26,8 @@ namespace IdentityServerCli.Console.Commands.ApiResources
 
         public void Execute(CommandLineApplication command)
         {
+            command.Description = Description;
+
             var disabled = command.AddResourceDisabled();
             var name = command.AddResourceName();
             var displayName = command.AddResourceDisplayName();
@@ -66,7 +70,7 @@ namespace IdentityServerCli.Console.Commands.ApiResources
 
                 await _apiResourceRepository.AddAsync(apiResource);
 
-                _console.WriteSuccess("ApiResource created.");
+                _console.WriteSuccess("Api resource created.");
             });
         }
 
