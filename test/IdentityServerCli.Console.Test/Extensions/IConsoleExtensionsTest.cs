@@ -34,13 +34,14 @@ namespace IdentityServerCli.Console.Test.Extensions
         {
             _console.WriteError(text);
 
-            WriteLineMustHaveHappend(text);
+            WriteErrorLineMustHaveHappend(text);
             ShouldHaveChangedTheColor(ConsoleColor.Red);
             ResetColorMustHaveHappend();
         }
 
         [Theory]
         [InlineData("It's just a warning.")]
+        [InlineData("Please, I'm a warning, don't ignore me.")]
         public void ShouldWriteWarningProperly(string text)
         {
             _console.WriteWarning(text);
@@ -60,6 +61,10 @@ namespace IdentityServerCli.Console.Test.Extensions
                 .MustHaveHappened();
 
         private void WriteLineMustHaveHappend(string text) =>
+            A.CallTo(() => _console.Out.WriteLine(text))
+                .MustHaveHappened();
+
+        private void WriteErrorLineMustHaveHappend(string text) =>
             A.CallTo(() => _console.Error.WriteLine(text))
                 .MustHaveHappened();
     }
