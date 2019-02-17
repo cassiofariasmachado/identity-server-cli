@@ -2,7 +2,18 @@
 
 _**IMPORTANT: Work in progress.**_
 
-Command line interface to manage API resources, clients and identity resources of your Identity Server 4 instance. 
+Command line interface to manage API resources, clients and identity resources of your Identity Server 4 instance.
+
+## Installation
+
+### GitHub
+
+1. Clone repository
+2. Run `scripts/install.sh`
+
+### NuGet
+
+Comming soon.
 
 ## Commands
 
@@ -110,3 +121,7 @@ _Options:_
 `--required` Specifies whether the user can de-select the scope on the consent screen. Defaults to false.
 
 `--no-show-in-discovery-document` Specifies whether this scope isn't shown in the discovery document. Defaults to false.
+
+## Contribution
+
+Contributions are welcome, if you find some bug please don't let of open a PR. Thanks!
