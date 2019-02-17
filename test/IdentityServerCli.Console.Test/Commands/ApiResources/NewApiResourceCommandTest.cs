@@ -29,7 +29,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
         }
 
         [Theory]
-        [InlineData("disable-api")]
+        [InlineData("disabled-api")]
         public void ShouldCreateANewApiResourceDisabled(string apiResourceName)
         {
             var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
