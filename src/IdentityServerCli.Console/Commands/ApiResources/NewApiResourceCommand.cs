@@ -1,7 +1,6 @@
 using IdentityServer4.Models;
 using McMaster.Extensions.CommandLineUtils;
 using IdentityServerCli.Console.Extensions;
-using System;
 using IdentityServerCli.Console.Interfaces.Repositories;
 using System.Linq;
 
@@ -20,8 +19,8 @@ namespace IdentityServerCli.Console.Commands.ApiResources
             IApiResourceRepository apiResourceRepository
         )
         {
-            _console = console;
-            _apiResourceRepository = apiResourceRepository;
+            this._console = console;
+            this._apiResourceRepository = apiResourceRepository;
         }
 
         public void Execute(CommandLineApplication command)
@@ -68,9 +67,9 @@ namespace IdentityServerCli.Console.Commands.ApiResources
                     apiResource.UserClaims = claims.Values;
                 }
 
-                await _apiResourceRepository.AddAsync(apiResource);
+                await this._apiResourceRepository.AddAsync(apiResource);
 
-                _console.WriteSuccess("Api resource created.");
+                this._console.WriteSuccess("Api resource created.");
             });
         }
 

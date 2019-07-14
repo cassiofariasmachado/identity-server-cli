@@ -12,9 +12,7 @@ namespace IdentityServerCli.Console.Test.Extensions
         [InlineData("help", "A help command.", CommandOptionType.SingleOrNoValue)]
         [InlineData("run", "Execute command.", CommandOptionType.NoValue)]
         public void ShouldCreateOptionProperly(
-            string optionName,
-            string description,
-            CommandOptionType optionType
+            string optionName, string description, CommandOptionType optionType
         )
         {
             var command = new CommandLineApplication();

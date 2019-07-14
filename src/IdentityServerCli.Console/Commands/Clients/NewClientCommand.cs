@@ -18,12 +18,11 @@ namespace IdentityServerCli.Console.Commands.Clients
         private readonly IClientRepository _clientRepository;
 
         public NewClientCommand(
-            IConsole console,
-            IClientRepository clientRepository
+            IConsole console, IClientRepository clientRepository
         )
         {
-            _console = console;
-            _clientRepository = clientRepository;
+            this._console = console;
+            this._clientRepository = clientRepository;
         }
 
         public void Execute(CommandLineApplication command)
@@ -111,9 +110,9 @@ namespace IdentityServerCli.Console.Commands.Clients
                     client.AllowedCorsOrigins = allowedCorsOrigins.Values;
                 }
 
-                await _clientRepository.AddAsync(client);
+                await this._clientRepository.AddAsync(client);
 
-                _console.WriteSuccess("Client created.");
+                this._console.WriteSuccess("Client created.");
             });
         }
 

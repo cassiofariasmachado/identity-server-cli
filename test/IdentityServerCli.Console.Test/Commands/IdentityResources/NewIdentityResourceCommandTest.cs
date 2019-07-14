@@ -17,27 +17,29 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
 
         private readonly IIdentityResourceRepository _identityResourceRepository;
 
+        private readonly CommandLineApplication _commandLineApp;
+
         private const string CommandName = "new";
 
         private const string SubCommandName = "identity-resource";
 
         public NewIdentityResourceCommandTest()
         {
-            _console = A.Fake<IConsole>();
-            _identityResourceRepository = A.Fake<IIdentityResourceRepository>();
+            this._console = A.Fake<IConsole>();
+            this._identityResourceRepository = A.Fake<IIdentityResourceRepository>();
+            var newIdentityResourceCmd = new NewIdentityResourceCommand(this._console, this._identityResourceRepository);
+            this._commandLineApp = CommandLineApplicationUtils.CreateCommandLineApplication(
+                    CommandName, SubCommandName, newIdentityResourceCmd
+            );
         }
 
         [Theory]
         [InlineData("disabled-identity-resource", new[] { "email" })]
         public void ShouldCreateANewIdentityResourceDisabled(string identityResourceName, string[] userClaims)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims, "--disabled");
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(i => i.Name == identityResourceName && !i.Enabled);
             SuccessMessageMustHaveHappened();
@@ -47,13 +49,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email" })]
         public void ShouldCreateANewIdentityResourceWithCorrectName(string identityResourceName, string[] userClaims)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims);
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(i => i.Name == identityResourceName);
             SuccessMessageMustHaveHappened();
@@ -63,13 +61,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email" }, "Awesome identity resource")]
         public void ShouldCreateANewIdentityResourceWithDisplayName(string identityResourceName, string[] userClaims, string displayName)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims, "--display-name", displayName);
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(
                 i => i.Name == identityResourceName && i.DisplayName == displayName);
@@ -80,13 +74,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email" }, "Awesome identity resource")]
         public void ShouldCreateANewIdentityResourceWithDescription(string identityResourceName, string[] userClaims, string description)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims, "--description", description);
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(
                 i => i.Name == identityResourceName && i.Description == description);
@@ -97,13 +87,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email", "uniquename" })]
         public void ShouldCreateANewIdentityResourceWithUserClaims(string identityResourceName, string[] userClaims)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims);
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(
                 i => i.Name == identityResourceName
@@ -115,13 +101,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email" })]
         public void ShouldCreateANewIdentityResourceWithEmphasize(string identityResourceName, string[] userClaims)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims, "--emphasize");
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(i => i.Name == identityResourceName && i.Emphasize);
             SuccessMessageMustHaveHappened();
@@ -131,13 +113,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email" })]
         public void ShouldCreateANewIdentityResourceRequired(string identityResourceName, string[] userClaims)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims, "--required");
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(i => i.Name == identityResourceName && i.Required);
             SuccessMessageMustHaveHappened();
@@ -148,13 +126,9 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
         [InlineData("awesome-identity-resource", new[] { "email" })]
         public void ShouldCreateANewIdentityDidntShowInDiscoveryDocument(string identityResourceName, string[] userClaims)
         {
-            var newIdentityResourceCommand = new NewIdentityResourceCommand(_console, _identityResourceRepository);
-
-            var app = CreateCommandLineApplication(newIdentityResourceCommand);
-
             var args = CreateArguments(identityResourceName, userClaims, "--no-show-in-discovery-document");
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithIdentityResourceThat(i => i.Name == identityResourceName && !i.ShowInDiscoveryDocument);
             SuccessMessageMustHaveHappened();
@@ -162,35 +136,24 @@ namespace IdentityServerCli.Console.Test.Commands.IdentityResources
 
         private void AddAsyncMustHaveHappenedWithIdentityResourceThat(Expression<Func<IdentityResource, bool>> predicate)
         {
-            A.CallTo(() =>
-                    _identityResourceRepository.AddAsync(
-                        A<IdentityResource>.That.Matches(predicate)))
+            A.CallTo(() => this._identityResourceRepository.AddAsync(A<IdentityResource>.That.Matches(predicate)))
                 .MustHaveHappened();
         }
 
         private void SuccessMessageMustHaveHappened()
         {
-            A.CallTo(() => _console.Out.WriteLine("Identity resource created."))
+            A.CallTo(() => this._console.Out.WriteLine("Identity resource created."))
                 .MustHaveHappened();
         }
 
         private string[] CreateArguments(string identityResourceName, string[] userClaims, params string[] args)
         {
-            var mainArgs = new[] {
-                CommandName, SubCommandName, identityResourceName
-            };
+            var mainArgs = new[] { CommandName, SubCommandName, identityResourceName };
             var userClaimsArgs = CommandLineApplicationUtils.CreateMultipleOptionArguments("--user-claims", userClaims);
 
             return mainArgs.Concat(userClaimsArgs)
                 .Concat(args)
                 .ToArray();
         }
-
-        private CommandLineApplication CreateCommandLineApplication(NewIdentityResourceCommand newApiResourceCommand)
-            => CommandLineApplicationUtils.CreateCommandLineApplication(
-                    CommandName,
-                    SubCommandName,
-                    newApiResourceCommand);
-
     }
 }

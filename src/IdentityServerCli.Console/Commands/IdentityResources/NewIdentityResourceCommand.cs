@@ -14,12 +14,11 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
         private readonly IIdentityResourceRepository _identityResourceRepository;
 
         public NewIdentityResourceCommand(
-            IConsole console,
-            IIdentityResourceRepository identityResourceRepository
+            IConsole console, IIdentityResourceRepository identityResourceRepository
         )
         {
-            _console = console;
-            _identityResourceRepository = identityResourceRepository;
+            this._console = console;
+            this._identityResourceRepository = identityResourceRepository;
         }
 
         public void Execute(CommandLineApplication command)
@@ -66,7 +65,7 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
 
                 if (emphasize.HasValue())
                 {
-                    _console.WriteLine("has emphasize");
+                    this._console.WriteLine("has emphasize");
                     identityResource.Emphasize = true;
                 }
 
@@ -75,9 +74,9 @@ namespace IdentityServerCli.Console.Commands.IdentityResources
                     identityResource.ShowInDiscoveryDocument = false;
                 }
 
-                await _identityResourceRepository.AddAsync(identityResource);
+                await this._identityResourceRepository.AddAsync(identityResource);
 
-                _console.WriteSuccess("Identity resource created.");
+                this._console.WriteSuccess("Identity resource created.");
             });
 
         }

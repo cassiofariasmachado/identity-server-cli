@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FakeItEasy;
@@ -18,25 +17,27 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
 
         private readonly IApiResourceRepository _apiResourceRepository;
 
+        private readonly CommandLineApplication _commandLineApp;
+
         private const string CommandName = "new";
 
         private const string SubCommandName = "api-resource";
 
         public NewApiResourceCommandTest()
         {
-            _console = A.Fake<IConsole>();
-            _apiResourceRepository = A.Fake<IApiResourceRepository>();
+            this._console = A.Fake<IConsole>();
+            this._apiResourceRepository = A.Fake<IApiResourceRepository>();
+            var newApiResourceCmd = new NewApiResourceCommand(this._console, this._apiResourceRepository);
+            this._commandLineApp = CommandLineApplicationUtils.CreateCommandLineApplication(
+                CommandName, SubCommandName, newApiResourceCmd
+            );
         }
 
         [Theory]
         [InlineData("disabled-api")]
         public void ShouldCreateANewApiResourceDisabled(string apiResourceName)
         {
-            var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
-
-            var app = CreateCommandLineApplication(newApiResourceCommand);
-
-            app.Execute(CommandName, SubCommandName, apiResourceName, "--disabled");
+            this._commandLineApp.Execute(CommandName, SubCommandName, apiResourceName, "--disabled");
 
             AddAsyncMustHaveHappenedWithApiResourceThat(a => a.Name == apiResourceName && !a.Enabled);
             SuccessMessageMustHaveHappened();
@@ -47,11 +48,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
         [InlineData("awesome-api")]
         public void ShouldCreateANewApiResourceWithCorrectName(string apiResourceName)
         {
-            var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
-
-            var app = CreateCommandLineApplication(newApiResourceCommand);
-
-            app.Execute(CommandName, SubCommandName, apiResourceName);
+            this._commandLineApp.Execute(CommandName, SubCommandName, apiResourceName);
 
             AddAsyncMustHaveHappenedWithApiResourceThat(a => a.Name == apiResourceName);
             SuccessMessageMustHaveHappened();
@@ -61,11 +58,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
         [InlineData("microservice-api", "Microservice API")]
         public void ShouldCreateANewApiResourceWithDisplayName(string apiResourceName, string displayName)
         {
-            var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
-
-            var app = CreateCommandLineApplication(newApiResourceCommand);
-
-            app.Execute(CommandName, SubCommandName, apiResourceName, "--display-name", displayName);
+            this._commandLineApp.Execute(CommandName, SubCommandName, apiResourceName, "--display-name", displayName);
 
             AddAsyncMustHaveHappenedWithApiResourceThat(a => a.Name == apiResourceName && a.DisplayName == displayName);
             SuccessMessageMustHaveHappened();
@@ -75,11 +68,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
         [InlineData("microservice-api", "A really micro service.")]
         public void ShouldCreateANewApiResourceWithDescription(string apiResourceName, string description)
         {
-            var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
-
-            var app = CreateCommandLineApplication(newApiResourceCommand);
-
-            app.Execute(CommandName, SubCommandName, apiResourceName, "--description", description);
+            this._commandLineApp.Execute(CommandName, SubCommandName, apiResourceName, "--description", description);
 
             AddAsyncMustHaveHappenedWithApiResourceThat(a => a.Name == apiResourceName && a.Description == description);
             SuccessMessageMustHaveHappened();
@@ -90,10 +79,6 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
         [InlineData("api-with-claims", new string[] { "email", "role" })]
         public void ShouldCreateANewApiResourceWithTheInformedClaims(string apiResourceName, string[] claims)
         {
-            var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
-
-            var app = CreateCommandLineApplication(newApiResourceCommand);
-
             var mainArgs = new string[] {
                 CommandName, SubCommandName, apiResourceName
             };
@@ -101,7 +86,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
 
             var args = mainArgs.Concat(userClaimsArgs).ToArray();
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithApiResourceThat(
                 a => a.Name == apiResourceName
@@ -114,10 +99,6 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
         [InlineData("api-with-scopes", new string[] { "profile", "contact" })]
         public void ShouldCreateANewApiResourceWithTheInformedScopes(string apiResourceName, string[] scopes)
         {
-            var newApiResourceCommand = new NewApiResourceCommand(_console, _apiResourceRepository);
-
-            var app = CreateCommandLineApplication(newApiResourceCommand);
-
             var mainArgs = new string[] {
                 CommandName, SubCommandName, apiResourceName
             };
@@ -125,7 +106,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
 
             var args = mainArgs.Concat(scopesArgs).ToArray();
 
-            app.Execute(args);
+            this._commandLineApp.Execute(args);
 
             AddAsyncMustHaveHappenedWithApiResourceThat(
                 a => a.Name == apiResourceName
@@ -135,9 +116,7 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
 
         private void AddAsyncMustHaveHappenedWithApiResourceThat(Expression<Func<ApiResource, bool>> predicate)
         {
-            A.CallTo(() =>
-                    _apiResourceRepository.AddAsync(
-                        A<ApiResource>.That.Matches(predicate)))
+            A.CallTo(() => this._apiResourceRepository.AddAsync(A<ApiResource>.That.Matches(predicate)))
                 .MustHaveHappened();
         }
 
@@ -146,12 +125,5 @@ namespace IdentityServerCli.Console.Test.Commands.ApiResources
             A.CallTo(() => _console.Out.WriteLine("Api resource created."))
                 .MustHaveHappened();
         }
-
-        private CommandLineApplication CreateCommandLineApplication(NewApiResourceCommand newApiResourceCommand)
-            => CommandLineApplicationUtils.CreateCommandLineApplication(
-                    CommandName,
-                    SubCommandName,
-                    newApiResourceCommand);
-
     }
 }
