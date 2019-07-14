@@ -23,6 +23,7 @@ namespace IdentityServerCli.Console.Test.Commands.Clients
             new Client {
                 ClientId = "client",
                 ClientName = "Client",
+                Description = "An amazing client.",
                 Enabled = true
             }
         };
@@ -63,11 +64,11 @@ namespace IdentityServerCli.Console.Test.Commands.Clients
             this._commandLineApp.Execute(args);
 
             var outputs = new List<string> {
-                "-------------------------------------",
-                "|ClientId   |ClientName |Enabled    |",
-                "-------------------------------------",
-                "|client     |Client     |True       |",
-                "-------------------------------------",
+                "---------------------------------------------------------------------------------",
+                "|ClientId           |ClientName         |Description        |Enabled            |",
+                "---------------------------------------------------------------------------------",
+                "|client             |Client             |An amazing client. |True               |",
+                "---------------------------------------------------------------------------------",
             };
 
             outputs.Select(output => A.CallTo(() => this._console.Out.WriteLine(output)))

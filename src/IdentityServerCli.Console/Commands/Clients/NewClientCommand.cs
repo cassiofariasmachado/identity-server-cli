@@ -32,6 +32,7 @@ namespace IdentityServerCli.Console.Commands.Clients
             var disabled = AddDisabled(command);
             var clientId = AddClientId(command);
             var clientName = AddClientName(command);
+            var description = AddDescription(command);
             var clientUri = AddClientUri(command);
             var logoUri = AddLogoUri(command);
             var clientSecrets = AddClientSecrets(command);
@@ -56,6 +57,11 @@ namespace IdentityServerCli.Console.Commands.Clients
                 if (clientName.HasValue())
                 {
                     client.ClientName = clientName.Value();
+                }
+
+                if (description.HasValue())
+                {
+                    client.Description = description.Value();
                 }
 
                 if (clientUri.HasValue())
@@ -127,6 +133,12 @@ namespace IdentityServerCli.Console.Commands.Clients
                     nameof(Client.ClientName),
                     "Client display name (used for logging and consent screen).",
                     CommandOptionType.SingleValue);
+
+        private CommandOption AddDescription(CommandLineApplication command) =>
+            command.CreateOption(
+                nameof(Client.Description),
+                "Description of the client.",
+                CommandOptionType.SingleValue);
 
         private CommandOption AddClientUri(CommandLineApplication command) =>
             command.CreateOption(
