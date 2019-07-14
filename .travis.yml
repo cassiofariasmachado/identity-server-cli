@@ -6,18 +6,20 @@ solution: IdentityServerCli.sln
 services:
   - docker
 
-jobs: 
+jobs:
   include:
     - stage: sonar-scan
       script:
         - docker run -it
-            -e PROJECT_KEY=${PROJECT_KEY}
-            -e SONAR_ORGANIZATION=${SONAR_ORGANIZATION}
-            -e SONAR_URL=${SONAR_URL}
-            -e SONAR_SECRET=${SONAR_SECRET}
-            -v $(pwd):/app
-            cassiofariasmachado/dotnet-sonarscanner:latest
-            sh scripts/sonar-scan.sh
+          --rm
+          -w /app
+          -v $(pwd):/app
+          -e PROJECT_KEY=${PROJECT_KEY}
+          -e SONAR_ORGANIZATION=${SONAR_ORGANIZATION}
+          -e SONAR_URL=${SONAR_URL}
+          -e SONAR_SECRET=${SONAR_SECRET}
+          cassiofariasmachado/dotnet-sonarscanner:latest
+          sh scripts/sonar-scan.sh
     - stage: publish-package
       script: ./scripts/publish-package.sh
       if: branch = master
