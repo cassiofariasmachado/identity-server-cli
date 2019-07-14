@@ -1,5 +1,6 @@
 PROJECT_PATH="src/IdentityServerCli.Console"
-PROJECT_NAME="IdentityServerCli.Console"
+PROJECT_NAME="IdentityServerCli"
+IS4_VERSION=$(git describe)
 
 echo "Stage 1: Uninstalling previous version"
 dotnet tool uninstall -g $PROJECT_NAME
