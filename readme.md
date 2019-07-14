@@ -1,7 +1,5 @@
 # Identity Server CLI [![Build Status](https://travis-ci.com/cassiofariasmachado/identity-server-cli.svg?branch=master)](https://travis-ci.com/cassiofariasmachado/identity-server-cli) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cassiofariasmachado_identity-server-cli&metric=alert_status)](https://sonarcloud.io/dashboard?id=cassiofariasmachado_identity-server-cli) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cassiofariasmachado_identity-server-cli&metric=coverage)](https://sonarcloud.io/dashboard?id=cassiofariasmachado_identity-server-cli)
 
-_**IMPORTANT: Work in progress.**_
-
 Command line interface to manage API resources, clients and identity resources of your Identity Server 4 instance.
 
 ## Installation
@@ -13,7 +11,11 @@ Command line interface to manage API resources, clients and identity resources o
 
 ### NuGet
 
-Comming soon.
+This package is available on [NuGet](https://www.nuget.org/packages/IdentityServerCli/). For installation run:
+
+```bash
+dotnet tool install --global IdentityServerCli
+```
 
 ### Usage
 
@@ -21,14 +23,14 @@ First of all, you need to set the environment variable named `IS4_CONNECTION_STR
 
 Example:
 
-``` bash
+```bash
 export IS4_CONNECTION_STRING="Server=myServerAddress;Database=myDataBase;User Id=myUsername;
 Password=myPassword;"
 ```
 
 After that, you can run:
 
-``` bash
+```bash
 is4 [command]
 ```
 
@@ -40,7 +42,7 @@ Command to add new clients, api and identity resources.
 
 _Usage:_
 
-``` bash
+```bash
 is4 new [command]
 ```
 
@@ -52,7 +54,7 @@ Create an api resource.
 
 _Usage:_
 
-``` bash
+```bash
 is4 new api-resource [arguments] [options]
 ```
 
@@ -62,10 +64,10 @@ _Arguments:_
 
 _Options:_
 
-`-?|-h|--help ` Show help information
+`-?|-h|--help` Show help information
 
 `--disabled` Indicates if this resource is disabled. Defaults to enabled.
-  
+
 `--display-name <display-name>` Display name of the resource.
 
 `--description <description>` Description of the resource.
@@ -74,12 +76,13 @@ _Options:_
 
 `--scopes <scopes>` The scopes of API
 
-
 ##### Client
+
+Create a client.
 
 _Usage:_
 
-``` bash
+```bash
 is4 new client [arguments] [options]
 ```
 
@@ -98,9 +101,9 @@ _Options:_
 `--description <description>` Description of the client.
 
 `--client-uri <client-uri>` URI to further information about client (used on consent screen).
-  
+
 `--logo-uri <logo-uri>` URI to client logo (used on consent screen).
-  
+
 `--client-secrets <client-secrets>` Client secrets - only relevant for flows that require a secret.
 
 `--secret-algorithm <secret-algorithm>` The algorithm used to encode the client secrets, can be "sha256" or "sha512". Defaults to sha256.
@@ -119,9 +122,9 @@ _Options:_
 
 Create an identity resource.
 
-_Usage:_ 
+_Usage:_
 
-``` bash
+```bash
 is4 new identity-resource [arguments] [options]
 ```
 
@@ -134,19 +137,65 @@ _Options:_
 `-?|-h|--help` Show help information
 
 `--disabled` Indicates if this resource is disabled. Defaults to enabled.
-  
+
 `--display-name <display-name>` Display name of the resource.
-  
+
 `--description <description>` Description of the resource.
-  
+
 `--user-claims <user-claims>` List of accociated user claims that should be included when this resource is requested.
-  
+
 `--emphasize` Specifies whether the consent screen will emphasize this scope. Defaults to false.
 
 `--required` Specifies whether the user can de-select the scope on the consent screen. Defaults to false.
 
 `--no-show-in-discovery-document` Specifies whether this scope isn't shown in the discovery document. Defaults to false.
 
+### List
+
+Command to list clients, api and identity resources.
+
+_Usage:_
+
+```bash
+is4 ls [command]
+```
+
+#### Subcommands
+
+##### Api Resource
+
+List api resources.
+
+_Usage:_
+
+```bash
+is4 ls api-resource
+```
+
+##### Client
+
+List clients.
+
+_Usage:_
+
+```bash
+is4 ls client
+```
+
+##### Identity Resource
+
+List identity resources.
+
+_Usage:_
+
+```bash
+is4 ls identity-resource
+```
+
 ## Contribution
 
-Contributions are welcome, if you find some bug please don't let of open an issue or a Pull Request. Thanks!
+Contributions are welcome, if you find some bug please don't let of open an issue or a Pull Request.
+
+## License
+
+Licensed under the MIT License. [Copy of the license](LICENSE).
