@@ -47,6 +47,17 @@ namespace IdentityServerCli.Console
                 newCmd.OnExecute(() => newCmd.ShowSubCommandHelp());
             });
 
+            app.Command(CommandsConsts.ListCommandName, lsCmd =>
+            {
+                lsCmd.Description = CommandsConsts.ListCommandDescription;
+
+                lsCmd.Command(nameof(ApiResource).Dashrialize(), app.GetService<ListApiResourcesCommand>().Execute);
+                lsCmd.Command(nameof(IdentityResource).Dashrialize(), app.GetService<ListIdentityResourcesCommand>().Execute);
+                lsCmd.Command(nameof(Client).Dashrialize(), app.GetService<ListClientsCommand>().Execute);
+
+                lsCmd.OnExecute(() => lsCmd.ShowSubCommandHelp());
+            });
+
             app.OnExecute(() =>
             {
                 app.Out.WriteLine("Specify a subcommand.");
@@ -72,6 +83,10 @@ namespace IdentityServerCli.Console
             services.AddSingleton<NewApiResourceCommand>();
             services.AddSingleton<NewIdentityResourceCommand>();
             services.AddSingleton<NewClientCommand>();
+
+            services.AddSingleton<ListApiResourcesCommand>();
+            services.AddSingleton<ListIdentityResourcesCommand>();
+            services.AddSingleton<ListClientsCommand>();
 
             services.AddIdentityServer()
                 .AddConfigurationStore(options =>

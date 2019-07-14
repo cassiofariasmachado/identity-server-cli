@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using IdentityServerCli.Console.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServerCli.Console.Repositories
 {
@@ -12,16 +15,22 @@ namespace IdentityServerCli.Console.Repositories
 
         public ClientRepository(IConfigurationDbContext configurationDbContext)
         {
-            _configurationDbContext = configurationDbContext;
+            this._configurationDbContext = configurationDbContext;
         }
 
         public async Task AddAsync(Client client)
         {
             var clientEntity = client.ToEntity();
 
-            await _configurationDbContext.Clients.AddAsync(clientEntity);
+            await this._configurationDbContext.Clients.AddAsync(clientEntity);
 
-            await _configurationDbContext.SaveChangesAsync();
+            await this._configurationDbContext.SaveChangesAsync();
         }
+
+        public async Task<IList<Client>> GetClientsAsync()
+            => await this._configurationDbContext.Clients
+                .OrderBy(c => c.ClientName)
+                .Select(c => c.ToModel())
+                .ToListAsync();
     }
 }
