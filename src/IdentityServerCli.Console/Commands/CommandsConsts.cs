@@ -1,6 +1,6 @@
 namespace IdentityServerCli.Console.Commands
 {
-    public class CommandsConsts
+    public static class CommandsConsts
     {
         public const string NewCommandName = "new";
 
