@@ -5,6 +5,7 @@ dotnet: 2.2
 solution: IdentityServerCli.sln
 services:
   - docker
+  - git
 
 jobs:
   include:
