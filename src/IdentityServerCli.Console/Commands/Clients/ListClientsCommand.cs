@@ -39,7 +39,6 @@ namespace IdentityServerCli.Console.Commands.Clients
                 {
                     nameof(Client.ClientId),
                     nameof(Client.ClientName),
-                    nameof(Client.Description),
                     nameof(Client.Enabled),
                 };
 
@@ -47,7 +46,6 @@ namespace IdentityServerCli.Console.Commands.Clients
                 {
                     client.ClientId,
                     client.ClientName,
-                    client.Description,
                     client.Enabled.ToString()
                 });
             });

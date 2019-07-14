@@ -66,17 +66,6 @@ namespace IdentityServerCli.Console.Test.Commands.Clients
         }
 
         [Theory]
-        [InlineData("js-client", "A JavaScript client.")]
-        public void ShouldCreateANewClientWithDescription(string clientId, string description)
-        {
-            this._commandLineApp.Execute(CommandName, SubCommandName, clientId, "--description", description);
-
-            AddAsyncMustHaveHappenedWithApiResourceThat(
-                c => c.ClientId == clientId && c.Description == description);
-            SuccessMessageMustHaveHappened();
-        }
-
-        [Theory]
         [InlineData("js-client", "https://javascript-client.com")]
         public void ShouldCreateANewClientWithClientUri(string clientId, string clientUri)
         {
