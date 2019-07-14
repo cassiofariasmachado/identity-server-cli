@@ -3,10 +3,10 @@ mono: none
 dist: xenial
 dotnet: 2.2
 solution: IdentityServerCli.sln
+before_install:
+  - sudo apt-get install -y git
 services:
   - docker
-  - git
-
 jobs:
   include:
     - stage: sonar-scan
