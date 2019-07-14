@@ -17,7 +17,7 @@ This package is available on [NuGet](https://www.nuget.org/packages/IdentityServ
 dotnet tool install --global IdentityServerCli
 ```
 
-### Usage
+## Usage
 
 First of all, you need to set the environment variable named `IS4_CONNECTION_STRING` of your running shell or operational system with the connection string of your Identity Server 4 instance.
 
